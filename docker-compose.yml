@@ -10,7 +10,7 @@
   portfolioweb:
     depends_on: 
       - database
-    image: portfolioweb
+    image: ${DockerUsername:?error}/portfolio:latest
     environment:
       ASPNETCORE_ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
     build:
