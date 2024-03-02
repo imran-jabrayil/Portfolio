@@ -23,6 +23,8 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           file: PortfolioWeb/Dockerfile
+          load: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/portfolio:latest
 
       - name: Docker Logout
         if: always()
@@ -66,6 +68,7 @@ jobs:
             touch .env
             echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
             echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
+            echo "DockerUsername=${{ secrets.DOCKER_USERNAME }}" >> .env
             docker-compose up -d
             rm .env
 
