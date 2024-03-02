@@ -9,7 +9,7 @@
   
   portfolioweb:
     depends_on: 
-      - database3
+      - database
     image: portfolioweb
     environment:
       ASPNETCORE_ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
