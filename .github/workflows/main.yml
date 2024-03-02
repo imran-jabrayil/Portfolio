@@ -60,12 +60,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/website/
-            if [ ! -f .env ]; then
-              touch .env
-              echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
-              echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
+            if [ -f .env ]; then
+              rm .env
             fi
+            touch .env
+            echo PortfolioDbPassword=${{ secrets.DB_PASSWORD }} >> .env
+            echo PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }} >> .env
             docker-compose up -d
+            rm .env
 
       - name: Docker Logout
         if: always()
