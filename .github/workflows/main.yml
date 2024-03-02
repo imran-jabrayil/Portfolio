@@ -11,21 +11,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      
+
       - name: Docker Login
         id: login
         uses: docker/login-action@v3.0.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-    
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v5.1.0
         with:
           file: PortfolioWeb/Dockerfile
-          secret-envs: |
-            PortfolioDbPassword: ${{ secrets.DB_PASSWORD }}
-            PortfolioDbConnectionString: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Docker Logout
         if: always()
@@ -54,8 +51,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-  
-      - name: Run containers
+
+      - name: Put environment variables and run containers
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -63,8 +60,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/website/
+            if [ ! -f .env ]; then
+              touch .env
+              echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
+              echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
+            fi
             docker-compose up -d
-      
+
       - name: Docker Logout
         if: always()
         run: docker logout ${{ steps.login.outputs.registry }}
