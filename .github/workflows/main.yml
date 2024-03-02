@@ -23,9 +23,6 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           file: PortfolioWeb/Dockerfile
-          secret-envs: |
-            PortfolioDbPassword: ${{ secrets.DB_PASSWORD }}
-            PortfolioDbConnectionString: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Docker Logout
         if: always()
@@ -54,7 +51,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-  
+
+      - name: Check if .env file exists
+        run: |
+          cd ~/website/
+          if [ ! -f .env ]; then
+            touch .env
+            echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
+            echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
+          fi
+        shell: bash
+
       - name: Run containers
         uses: appleboy/ssh-action@master
         with:
