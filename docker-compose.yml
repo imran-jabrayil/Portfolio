@@ -6,15 +6,12 @@
       MSSQL_SA_PASSWORD: ${PortfolioDbPassword:?error}
     ports:
       - "1500:1433"
-  
+
   portfolioweb:
-    depends_on: 
+    depends_on:
       - database
     image: ${DockerUsername:?error}/portfolio:latest
     environment:
       ASPNETCORE_ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
-    build:
-      context: .
-      dockerfile: PortfolioWeb/Dockerfile
     ports:
       - "80:8080"
