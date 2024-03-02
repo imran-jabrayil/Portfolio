@@ -1,8 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioWeb", "PortfolioWeb\PortfolioWeb.csproj", "{F120430B-B43C-4AD2-B1D7-A815BE5501AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00902D29-B5FE-453D-A623-316580272473}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F120430B-B43C-4AD2-B1D7-A815BE5501AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F120430B-B43C-4AD2-B1D7-A815BE5501AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F120430B-B43C-4AD2-B1D7-A815BE5501AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F120430B-B43C-4AD2-B1D7-A815BE5501AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
