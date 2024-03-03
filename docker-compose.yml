@@ -1,4 +1,6 @@
-﻿services:
+﻿version: "3"
+
+services:
   database:
     image: mcr.microsoft.com/azure-sql-edge:latest
     environment:
@@ -11,6 +13,7 @@
     depends_on:
       - database
     image: ${DockerUsername:?error}/portfolio:latest
+    restart: on-failure
     environment:
       ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
     ports:
