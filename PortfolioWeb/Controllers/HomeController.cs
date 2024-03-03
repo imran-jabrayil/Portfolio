@@ -1,14 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PortfolioWeb.Data;
 using PortfolioWeb.Models;
 
 namespace PortfolioWeb.Controllers;
 
 public class HomeController : Controller {
     private readonly ILogger<HomeController> _logger;
+    private readonly PortfolioDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger) {
+
+    public HomeController(ILogger<HomeController> logger, PortfolioDbContext context) {
         _logger = logger;
+        _context = context;
     }
 
     public IActionResult Index() {
