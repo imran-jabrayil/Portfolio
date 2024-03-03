@@ -61,10 +61,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker stop website_portfolioweb_1
-            docker rm website_portfolioweb_1
-            docker rmi cimran2001/portfolio:latest
-            
             cd ~/website/
             if [ -f .env ]; then
               rm .env
@@ -73,7 +69,7 @@ jobs:
             echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
             echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
             echo "DockerUsername=${{ secrets.DOCKER_USERNAME }}" >> .env
-            docker-compose up -d
+            docker compose up -d
 
       - name: Docker Logout
         if: always()
