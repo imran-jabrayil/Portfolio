@@ -3,6 +3,7 @@
 services:
   database:
     image: mcr.microsoft.com/azure-sql-edge:latest
+    restart: on-failure
     environment:
       ACCEPT_EULA: 1
       MSSQL_SA_PASSWORD: ${PortfolioDbPassword:?error}

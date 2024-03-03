@@ -8,6 +8,7 @@ public static class MigrationsExtension {
 
         using PortfolioDbContext dbContext = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
 
-        dbContext.Database.Migrate();
+        if (dbContext.Database.GetPendingMigrations().Any())
+            dbContext.Database.Migrate();
     }
 }
