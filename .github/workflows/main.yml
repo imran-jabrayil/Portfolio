@@ -69,7 +69,8 @@ jobs:
             echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
             echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
             echo "DockerUsername=${{ secrets.DOCKER_USERNAME }}" >> .env
-            docker-compose up -d
+            docker compose down
+            docker compose up -d
 
       - name: Docker Logout
         if: always()
