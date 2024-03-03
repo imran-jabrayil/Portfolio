@@ -12,6 +12,6 @@
       - database
     image: ${DockerUsername:?error}/portfolio:latest
     environment:
-      ASPNETCORE_ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
+      ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
     ports:
       - "80:8080"

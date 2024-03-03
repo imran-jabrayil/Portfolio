@@ -7,7 +7,7 @@ public static class MigrationsExtension {
         using IServiceScope scope = app.ApplicationServices.CreateScope();
 
         using PortfolioDbContext dbContext = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
-        
+
         dbContext.Database.Migrate();
     }
 }

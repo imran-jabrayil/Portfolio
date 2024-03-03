@@ -9,8 +9,8 @@ namespace PortfolioWeb.Controllers;
 public class HomeController : Controller {
     private readonly ILogger<HomeController> _logger;
     private readonly PortfolioDbContext _context;
-    
-    
+
+
     public HomeController(ILogger<HomeController> logger, PortfolioDbContext context) {
         _logger = logger;
         _context = context;
