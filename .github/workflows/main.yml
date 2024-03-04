@@ -70,7 +70,7 @@ jobs:
             echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
             echo "DockerUsername=${{ secrets.DOCKER_USERNAME }}" >> .env
             docker compose stop
-            dockeer rm website-portfolioweb-1
+            docker rm website-portfolioweb-1
             docker rmi cimran2001/portfolio:latest
             docker compose up -d
 
