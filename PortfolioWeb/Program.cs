@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using PortfolioWeb.Data;
+using PortfolioWeb.Services;
+using PortfolioWeb.Services.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PortfolioDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Portfolio")));
+
+builder.Services.Configure<EmailSenderServiceSettings>(
+    builder.Configuration.GetSection(nameof(EmailSenderService)));
+builder.Services.AddScoped<IEmailSender, EmailSenderService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<PortfolioDbContext>();
 
