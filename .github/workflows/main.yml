@@ -73,6 +73,11 @@ jobs:
             echo "PortfolioDbPassword=${{ secrets.DB_PASSWORD }}" >> .env
             echo "PortfolioDbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" >> .env
             echo "DockerUsername=${{ secrets.DOCKER_USERNAME }}" >> .env
+            echo "EmailSenderService__Host=${{ secrets.EMAILSENDERSERVICE__HOST }}" >> .env
+            echo "EmailSenderService__Port=${{ secrets.EMAILSENDERSERVICE__PORT }}" >> .env
+            echo "EmailSenderService__Email=${{ secrets.EMAILSENDERSERVICE__EMAIL }}" >> .env
+            echo "EmailSenderService__Password=${{ secrets.EMAILSENDERSERVICE__PASSWORD }}" >> .env
+            echo "EmailSenderService__NoReplyEmail=${{ secrets.EMAILSENDERSERVICE__NOREPLYEMAIL }}" >> .env
             docker compose stop
             docker rm website-portfolioweb-1
             docker rmi cimran2001/portfolio:latest
