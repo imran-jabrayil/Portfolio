@@ -23,7 +23,7 @@ public class EmailSenderService : IEmailSender {
 
     public async Task SendEmailAsync(string email, string subject, string htmlMessage) {
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("No-Reply", _settings.NoReplyEmail));
+        message.From.Add(new MailboxAddress(_settings.NoReplyUsername, _settings.NoReplyEmail));
         message.To.Add(new MailboxAddress(email, email));
         message.Subject = subject;
 

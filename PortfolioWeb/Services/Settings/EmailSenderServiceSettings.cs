@@ -6,4 +6,5 @@ public record EmailSenderServiceSettings {
     public string Email { get; init; } = null!;
     public string Password { get; init; } = null!;
     public string NoReplyEmail { get; init; } = null!;
+    public string NoReplyUsername { get; init; } = null!;
 }
