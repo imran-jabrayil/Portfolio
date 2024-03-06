@@ -17,10 +17,10 @@ services:
     restart: on-failure
     environment:
       ConnectionStrings__Portfolio: ${PortfolioDbConnectionString:?error}
-      EmailSenderService__Host: ${EmailSenderService__Host}
-      EmailSenderService__Port: ${EmailSenderService__Port}
-      EmailSenderService__Email: ${EmailSenderService__Email}
-      EmailSenderService__Password: ${EmailSenderService__Password}
-      EmailSenderService__NoReplyEmail: ${EmailSenderService__NoReplyEmail}
+      EmailSenderService__Host: ${EmailSenderService__Host:?error}
+      EmailSenderService__Port: ${EmailSenderService__Port:?error}
+      EmailSenderService__Email: ${EmailSenderService__Email:?error}
+      EmailSenderService__Password: ${EmailSenderService__Password:?error}
+      EmailSenderService__NoReplyEmail: ${EmailSenderService__NoReplyEmail:?error}
     ports:
       - "80:8080"
