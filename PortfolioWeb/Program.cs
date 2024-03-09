@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using PortfolioWeb.Data;
-using PortfolioWeb.Services;
-using PortfolioWeb.Services.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
