@@ -11,12 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PortfolioDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Portfolio")));
-
-builder.Services.Configure<EmailSenderServiceSettings>(
-    builder.Configuration.GetSection(nameof(EmailSenderService)));
-builder.Services.AddScoped<IEmailSender, EmailSenderService>();
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<PortfolioDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(
+    options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<PortfolioDbContext>();
 
 var app = builder.Build();
 
