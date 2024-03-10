@@ -17,6 +17,7 @@ public class WorkExperienceController : Controller {
 
     public async Task<IActionResult> Index() {
         var workExperiences = await _context.WorkExperiences
+            .Include(we => we.Company)
             .Include(we => we.City)
             .ThenInclude(c => c.Country)
             .OrderByDescending(we => we.StartDate)

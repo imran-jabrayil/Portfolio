@@ -24,7 +24,9 @@
     @foreach (var workExperience in Model)
     {
         <tr>
-            <td>@workExperience.CompanyName</td> 
+            <td>
+                <a href="@workExperience.Company.WebsiteUrl" target="_blank">@workExperience.CompanyName</a>
+            </td> 
             <td>
                 @{
                     var sb = new StringBuilder();
