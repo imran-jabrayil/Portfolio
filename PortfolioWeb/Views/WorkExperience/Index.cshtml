@@ -1,0 +1,52 @@
+@using System.Text
+@model IEnumerable<WorkExperience>
+
+@{
+    ViewBag.Title = "Work experience";
+    Layout = "_Layout";
+}
+
+<h2>Work experiences</h2>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Company</th>
+        <th>Position</th>
+        <th>Country</th>
+        <th>City</th>
+        <th>Start Date</th>
+        <th>Termination Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var workExperience in Model)
+    {
+        <tr>
+            <td>@workExperience.CompanyName</td> 
+            <td>
+                @{
+                    var sb = new StringBuilder();
+                    if (workExperience.Level is not null && workExperience.Level != Level.Intern) {
+                        sb.Append(Enum.GetName(workExperience.Level.Value));
+                        sb.Append(" ");
+                    }
+
+                    sb.Append(workExperience.PositionName);
+
+                    if (workExperience.Level == Level.Intern) {
+                        sb.Append(" Intern");
+                    }
+
+                }
+                @sb.ToString()
+            </td>
+            <td>@workExperience.City.Country.Name</td>
+            <td>@workExperience.CityName</td>
+            <td>@workExperience.StartDate.ToString("yyyy-MM-dd")</td>
+            <td>@(workExperience.TerminationDate?.ToString("yyyy-MM-dd") ?? "Present")</td>
+        </tr>
+    }
+    </tbody>
+</table>
