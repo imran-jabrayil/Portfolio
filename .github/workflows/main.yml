@@ -3,6 +3,9 @@ name: Build and Deploy to Nomad
 on:
   workflow_dispatch:
 
+env:
+  NOMAD_VERSION: "1.9.4"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -55,22 +58,16 @@ jobs:
           echo "Updated portfolio.nomad:"
           cat portfolio.nomad
 
-      - name: Generate JSON request
-        run: |
-          jq -Rsc '{ JobHCL: ., Canonicalize: true }' portfolio.nomad > portfolio-payload.json
+      - name: Setup `nomad`
+        uses: hashicorp/setup-nomad@main
+        with:
+          version: ${{ env.NOMAD_VERSION }}
 
-      - name: Deploy to Nomad via cURL
-        env:
-          NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
-          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+      - name: Run `nomad version`
         run: |
-          curl --request POST \
-            --header "X-Nomad-Token: $NOMAD_TOKEN" \
-            --data-binary @portfolio-payload.json \
-            "$NOMAD_ADDR/v1/jobs/parse" \
-            -o deployment-payload.json
-          
-      - name:
+          nomad job run -output portfolio.nomad > deployment-payload.json
+
+      - name: Deploy to Nomad
         env:
           NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
