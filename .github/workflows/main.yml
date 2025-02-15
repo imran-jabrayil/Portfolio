@@ -67,4 +67,4 @@ jobs:
           curl --request POST \
             --header "X-Nomad-Token: $NOMAD_TOKEN" \
             --data-binary @deployment-payload.json \
-            "$NOMAD_ADDR/v1/jobs/parse"
+            "$NOMAD_ADDR/v1/jobs"
