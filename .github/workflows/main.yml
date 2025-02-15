@@ -19,7 +19,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t cimran2001/portfolio:$VERSION -f Portfolio/Dockerfile
+          docker build -t cimran2001/portfolio:$VERSION -f Portfolio/Dockerfile .
           docker tag cimran2001/portfolio:$VERSION cimran2001/portfolio:latest
 
       - name: Push Docker Image to Docker Hub
