@@ -17,7 +17,6 @@ jobs:
         id: extract_version
         run: |
           VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
 
       - name: Build Docker Image
@@ -41,6 +40,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Extract version from .csproj
+        id: extract_version
+        run: |
+          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
+          echo "Extracted version: $VERSION"
+
       - name: Fetch `portfolio.nomad` from server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -55,24 +60,31 @@ jobs:
       - name: Update Docker Image Version in Nomad File
         run: |
           sed -i "s|image = \"cimran2001/portfolio:latest\"|image = \"cimran2001/portfolio:$VERSION\"|g" portfolio.nomad
-          echo "Updated portfolio.nomad:"
-          cat portfolio.nomad
+          echo "portfolio.nomad updated to version $VERSION"
+#          cat portfolio.nomad
 
       - name: Setup `nomad`
         uses: hashicorp/setup-nomad@main
         with:
           version: ${{ env.NOMAD_VERSION }}
 
-      - name: Run `nomad version`
-        run: |
-          nomad job run -output portfolio.nomad > deployment-payload.json
-
       - name: Deploy to Nomad
         env:
           NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         run: |
-          curl --request POST \
-            --header "X-Nomad-Token: $NOMAD_TOKEN" \
-            --data-binary @deployment-payload.json \
-            "$NOMAD_ADDR/v1/jobs"
+          nomad run portfolio.nomad
+
+#      - name: Run `nomad version`
+#        run: |
+#          nomad job run -output portfolio.nomad > deployment-payload.json
+#
+#      - name: Deploy to Nomad
+#        env:
+#          NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
+#          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+#        run: |
+#          curl --request POST \
+#            --header "X-Nomad-Token: $NOMAD_TOKEN" \
+#            --data-binary @deployment-payload.json \
+#            "$NOMAD_ADDR/v1/jobs"
