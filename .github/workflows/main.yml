@@ -10,41 +10,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract version from .csproj
-        id: extract_version
-        run: |
-          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio.csproj)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Extracted version: $VERSION"
-
-      - name: Build Docker Image
-        run: |
-          docker build -t cimran2001/portfolio:$VERSION .
-          docker tag cimran2001/portfolio:$VERSION cimran2001/portfolio:latest
-
-      - name: Push Docker Image to Docker Hub
+      - name: Fetch `portfolio.nomad` from server
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker push cimran2001/portfolio:$VERSION
-          docker push cimran2001/portfolio:latest
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          scp -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP:/path/to/portfolio.nomad portfolio.nomad
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Replace Version in Nomad Job File
+      - name: Update Docker Image Version in Nomad File
         run: |
-          sed -i "s|image = \"cimran2001/portfolio:latest\"|image = \"cimran2001/portfolio:$VERSION\"|g" nomad/portfolio.nomad
+          sed -i "s|image = \"cimran2001/portfolio:latest\"|image = \"cimran2001/portfolio:$VERSION\"|g" portfolio.nomad
+          echo "Updated portfolio.nomad:"
+          cat portfolio.nomad
 
-      - name: Deploy to Nomad
+      - name: Deploy to Nomad via cURL
         env:
           NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         run: |
-          curl --request POST --header "X-Nomad-Token: $NOMAD_TOKEN" --data-binary @nomad/portfolio.nomad "$NOMAD_ADDR/v1/jobs"
+          curl --request POST --header "X-Nomad-Token: $NOMAD_TOKEN" --data-binary @portfolio.nomad "$NOMAD_ADDR/v1/jobs"
