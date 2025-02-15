@@ -57,9 +57,20 @@ jobs:
 
       - name: Generate JSON request
         run: |
-          jq -Rsc '{ JobHCL: ., Canonicalize: true }' portfolio.nomad > deployment-payload.json
+          jq -Rsc '{ JobHCL: ., Canonicalize: true }' portfolio.nomad > portfolio-payload.json
 
       - name: Deploy to Nomad via cURL
+        env:
+          NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
+          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+        run: |
+          curl --request POST \
+            --header "X-Nomad-Token: $NOMAD_TOKEN" \
+            --data-binary @portfolio-payload.json \
+            "$NOMAD_ADDR/v1/jobs/parse" \
+            -o deployment-payload.json
+          
+      - name:
         env:
           NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
