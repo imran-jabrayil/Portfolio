@@ -55,9 +55,16 @@ jobs:
           echo "Updated portfolio.nomad:"
           cat portfolio.nomad
 
+      - name: Generate JSON request
+        run: |
+          jq -Rsc '{ JobHCL: ., Canonicalize: true }' portfolio.nomad > deployment-payload.json
+
       - name: Deploy to Nomad via cURL
         env:
           NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         run: |
-          curl --request POST --header "X-Nomad-Token: $NOMAD_TOKEN" --data-binary @portfolio.nomad "$NOMAD_ADDR/v1/jobs"
+          curl --request POST \
+            --header "X-Nomad-Token: $NOMAD_TOKEN" \
+            --data-binary @deployment-payload.json \
+            "$NOMAD_ADDR/v1/jobs/parse"
