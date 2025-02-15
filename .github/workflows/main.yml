@@ -75,3 +75,36 @@ jobs:
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         run: |
           nomad run portfolio.nomad
+          
+          DEPLOYMENT_ID=$(echo "$OUTPUT" | grep -oP '(?<=Monitoring deployment ")[a-f0-9]+')
+          echo "Deployment ID: $DEPLOYMENT_ID"
+
+          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
+          
+      - name: Validate deploy
+        env:
+          NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
+          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+          DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
+        run: |
+          MAX_RETRIES=30  # 5 minutes (10s per retry)
+          RETRY_INTERVAL=10  # Seconds
+
+          for (( i=1; i<=$MAX_RETRIES; i++ ))
+          do
+            echo "Checking deployment status ($i/$MAX_RETRIES)..."
+            DEPLOYMENT_STATUS=$(nomad deployment status "$DEPLOYMENT_ID" | grep -oP '(?<=Status\s+=\s)(successful|running|failed)')
+
+            echo "Deployment Status: $DEPLOYMENT_STATUS"
+
+            if [[ "$DEPLOYMENT_STATUS" == "successful" ]]; then
+              exit 0
+            elif [[ "$DEPLOYMENT_STATUS" == "failed" ]]; then
+              exit 1
+            fi
+
+            sleep $RETRY_INTERVAL
+          done
+
+          exit 1
+          
