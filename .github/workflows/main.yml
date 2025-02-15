@@ -47,7 +47,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          scp -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP:/path/to/portfolio.nomad portfolio.nomad
+          scp -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP:/$SERVER_USER/nomad-jobs/portfolio/portfolio.nomad portfolio.nomad
 
       - name: Update Docker Image Version in Nomad File
         run: |
