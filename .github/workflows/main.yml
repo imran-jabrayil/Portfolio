@@ -13,7 +13,7 @@ jobs:
       - name: Extract version from .csproj
         id: extract_version
         run: |
-          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio.csproj)
+          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
 
