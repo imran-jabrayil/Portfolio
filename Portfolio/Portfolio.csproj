@@ -5,6 +5,12 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <Authors>Imran Jabrayilov</Authors>
+        <Version>0.1.0</Version>
+        <PackageReleaseNotes>
+            * Init
+            - First version
+        </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
