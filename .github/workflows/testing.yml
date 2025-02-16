@@ -23,7 +23,7 @@ jobs:
       id: changed-files
       uses: tj-actions/changed-files@v45
       with:
-        files: Portfolio/**/*.{cs,cshtml,json,js,css}
+        files: Portfolio/**/*.{cs,cshtml,json,js,css,csproj}
 
     - name: Extract version from .csproj
       if: steps.changed-files.outputs.any_changed == 'true'
