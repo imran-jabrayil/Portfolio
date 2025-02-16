@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.1.0</Version>
+        <Version>0.1.1</Version>
         <PackageReleaseNotes>
-            * Init
-            - First version
+            * Patch
+            - Refactoring
         </PackageReleaseNotes>
     </PropertyGroup>
 
