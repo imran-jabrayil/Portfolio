@@ -1,7 +1,9 @@
 name: Build and Deploy to Nomad
 
 on:
-  workflow_dispatch:
+  push: 
+    branches:
+      - main
 
 env:
   NOMAD_VERSION: "1.9.4"
