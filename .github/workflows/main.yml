@@ -129,8 +129,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "Imran Jabrayilov"
+          git config --global user.email "c.imran2001@yandex.com"
 
       - name: Authenticate with PAT
         run: |
