@@ -38,12 +38,13 @@ jobs:
         echo "Extracted version: $VERSION"
 
     - uses: mukunku/tag-exists-action@v1.4.0
+      if: steps.changed-files.outputs.any_changed == 'true'
       id: check-tag
       with:
-        tag: v$VERSION
+        tag: "v$VERSION"
         
     - name: Check version
-      if: steps.check-tag.outputs.exists == 'true'
+      if: steps.changed-files.outputs.any_changed == 'true' && steps.check-tag.outputs.exists == 'true'
       run: |
         echo "Version $VERSION already exists"
         exit 1
