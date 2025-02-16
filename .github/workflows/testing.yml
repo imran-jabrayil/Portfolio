@@ -44,7 +44,7 @@ jobs:
         echo ${exit_code}
         if [[ $exit_code -eq 0 ]]; then
           echo "Version $VERSION exists"
-          exit
+          exit 1
         else
           echo "Version $VERSION does not exist"
         fi
