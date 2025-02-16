@@ -10,9 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    permissions:
-      pull-requests: read
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,6 +37,10 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    
+    permissions:
+      pull-requests: read
+    
     needs: build
     steps:
       - name: Checkout code
@@ -107,7 +108,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v45
         with:
-          files: Portfolio/**
+          files: Portfolio/**/*.{cs,cshtml,json,js,css}
 
       - name: Tag Git Repository
         if: success() && steps.changed-files.outputs.any_changed == 'true'
