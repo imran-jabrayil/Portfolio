@@ -127,19 +127,9 @@ jobs:
             exit 1
           fi
 
-      - name: Configure Git
+      - name: Bump version and push tag
         if: steps.check-tag.outputs.exists == 'false'
-        run: |
-          git config --global user.name "Imran Jabrayilov"
-          git config --global user.email "c.imran2001@yandex.com"
-
-      - name: Authenticate with PAT
-        if: steps.check-tag.outputs.exists == 'false'
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/imran-jabrayil/Portfolio.git
-
-      - name: Create and Push Tag
-        if: steps.check-tag.outputs.exists == 'false'
-        run: |
-          git tag -a v$VERSION -m "Release version $VERSION"
-          git push origin v$VERSION
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
