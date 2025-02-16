@@ -102,8 +102,7 @@ jobs:
       - name: Get changed files in the docs folder
         uses: tj-actions/changed-files@v45
         with:
-          files: Portfolio/**.{cs,cshtml,json,js,css}
-          files_ignore: docs/static.js
+          files: Portfolio/**
 
       - name: Tag Git Repository
         if: success() && steps.changed-files-specific.outputs.any_changed == 'true'

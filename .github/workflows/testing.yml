@@ -18,7 +18,7 @@ jobs:
     - name: Get changed files in the docs folder
       uses: tj-actions/changed-files@v45
       with:
-        files: Portfolio/**.{cs,cshtml,json,js,css}  
+        files: Portfolio/**  
 
     - name: Extract version from .csproj
       if: steps.changed-files-specific.outputs.any_changed == 'true'
