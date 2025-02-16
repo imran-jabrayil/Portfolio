@@ -22,13 +22,20 @@ jobs:
           VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
+          
+      - uses: mukunku/tag-exists-action@v1.4.0
+        id: check-tag
+        with:
+          tag: v${{ env.VERSION }}
 
       - name: Build Docker Image
+        if: steps.check-tag.outputs.exists == 'false'
         run: |
           docker build -t cimran2001/portfolio:$VERSION -f Portfolio/Dockerfile .
           docker tag cimran2001/portfolio:$VERSION cimran2001/portfolio:latest
 
       - name: Push Docker Image to Docker Hub
+        if: steps.check-tag.outputs.exists == 'false'
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -44,6 +51,9 @@ jobs:
       pull-requests: read
     
     needs: build
+    
+    if: needs.build.outputs.check-tag-exists == 'false'
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,6 +64,11 @@ jobs:
           VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Extracted version: $VERSION"
+          
+      - uses: mukunku/tag-exists-action@v1.4.0
+        id: check-tag
+        with:
+          tag: v${{ env.VERSION }}
 
       - name: Fetch `portfolio.nomad` from server
         env:
@@ -106,14 +121,8 @@ jobs:
             exit 1
           fi
 
-      - name: Get changed files in the docs folder
-        id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: Portfolio/**/*.{cs,cshtml,json,js,css}
-
       - name: Tag Git Repository
-        if: success() && steps.changed-files.outputs.any_changed == 'true'
+        if: success()
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
