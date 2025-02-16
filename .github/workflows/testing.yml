@@ -38,9 +38,12 @@ jobs:
     - name: Check if tag exists
       if: steps.changed-files.outputs.any_changed == 'true'
       run: |
+        echo "Checking if tag v$VERSION exists..."
         if git rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null; then
           echo "Tag v$VERSION already exists!"
           exit 1
+        else
+          echo "Tag v$VERSION does not exist. Proceeding..."
         fi
 
     - name: Setup .NET
