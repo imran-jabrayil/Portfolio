@@ -91,9 +91,10 @@ jobs:
           MAX_RETRIES=30  # 5 minutes (10s per retry)
           RETRY_INTERVAL=10  # Seconds
 
-          for (( i=1; i<=$MAX_RETRIES; i++ )); do
+          for (( i=1; i<=$MAX_RETRIES; i++ ))
+          do
             DEPLOYMENT_OUTPUT=$(nomad deployment status "$DEPLOYMENT_ID")
-            DEPLOYMENT_STATUS=$(echo "$DEPLOYMENT_OUTPUT" | awk -F 'Status[ ]*=[ ]*' '{print $2}' | awk '{print $1}' | tr -d '\n' | tr -d '\r'
+            DEPLOYMENT_STATUS=$(echo "$DEPLOYMENT_OUTPUT" | awk -F 'Status[ ]*=[ ]*' '{print $2}' | awk '{print $1}' | tr -d '\n' | tr -d '\r')
 
             echo "Deployment Status: $DEPLOYMENT_STATUS"
 
