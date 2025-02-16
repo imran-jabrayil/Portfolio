@@ -93,8 +93,8 @@ jobs:
 
           for (( i=1; i<=$MAX_RETRIES; i++ ))
           do
-            echo "Checking deployment status ($i/$MAX_RETRIES)..."
-            DEPLOYMENT_STATUS=$(nomad deployment status "$DEPLOYMENT_ID" | grep -oP '(?<=Status\s+=\s)(successful|running|failed)')
+            DEPLOYMENT_OUTPUT=$(nomad deployment status "$DEPLOYMENT_ID")
+            DEPLOYMENT_STATUS=$(echo "$DEPLOYMENT_OUTPUT" | awk -F 'Status[ ]*=[ ]*' '{print $2}' | awk '{print $1}')
 
             echo "Deployment Status: $DEPLOYMENT_STATUS"
 
