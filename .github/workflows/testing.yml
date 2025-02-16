@@ -14,13 +14,38 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Get changed files in the docs folder
+      uses: tj-actions/changed-files@v45
+      with:
+        files: Portfolio/*.{cs,cshtml,json,js,css}  
+        files_ignore: docs/static.js
+
+    - name: Extract version from .csproj
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      run: |
+        VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "Extracted version: $VERSION"
+
+    - name: Check if tag exists
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      run: |
+        if git rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null; then
+          echo "Tag v$VERSION already exists!"
+          exit 1
+        fi
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
     - name: Test
       run: dotnet test --no-build --verbosity normal

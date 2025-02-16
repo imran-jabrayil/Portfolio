@@ -98,5 +98,17 @@ jobs:
           else
             exit 1
           fi
-        
-          
+
+      - name: Get changed files in the docs folder
+        uses: tj-actions/changed-files@v45
+        with:
+          files: Portfolio/*.{cs,cshtml,json,js,css}
+          files_ignore: docs/static.js
+
+      - name: Tag Git Repository
+        if: success() && steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git tag -a v$VERSION -m "Release version $VERSION"
+          git push origin v$VERSION
