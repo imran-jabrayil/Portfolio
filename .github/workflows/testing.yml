@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     permissions:
@@ -22,7 +21,7 @@ jobs:
       id: changed-files
       uses: tj-actions/changed-files@v45
       with:
-        files: Portfolio/**
+        files: Portfolio/**.{cs,cshtml,json,js,css}
         
     - name: Debug changed files
       run: |
@@ -30,14 +29,14 @@ jobs:
         echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
 
     - name: Extract version from .csproj
-      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      if: steps.changed-files.outputs.any_changed == 'true'
       run: |
         VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Portfolio/Portfolio.csproj)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "Extracted version: $VERSION"
 
     - name: Check if tag exists
-      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      if: steps.changed-files.outputs.any_changed == 'true'
       run: |
         if git rev-parse -q --verify "refs/tags/v$VERSION" > /dev/null; then
           echo "Tag v$VERSION already exists!"
