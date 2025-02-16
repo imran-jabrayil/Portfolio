@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.1.1</Version>
+        <Version>0.1.2</Version>
         <PackageReleaseNotes>
             * Patch
-            - Refactoring
+            - Refactored HealthCheck
         </PackageReleaseNotes>
     </PropertyGroup>
 
