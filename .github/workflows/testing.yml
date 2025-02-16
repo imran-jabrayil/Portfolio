@@ -35,19 +35,16 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "Extracted version: $VERSION"
 
-    - name: Check if tag exists
-      if: steps.changed-files.outputs.any_changed == 'true'
+    - uses: mukunku/tag-exists-action@v1.4.0
+      id: check-tag
+      with:
+        tag: 'refs/tags/v$VERSION'
+        
+    - name: Check version
+      if: steps.check-tag.outputs.exists == 'true'
       run: |
-        echo "Checking if tag v$VERSION exists..."
-        git show-ref --tags --verify --quiet "refs/tags/$VERSION" 
-        exit_code=$?
-        echo ${exit_code}
-        if [[ $exit_code -eq 0 ]]; then
-          echo "Version $VERSION exists"
-          exit 1
-        else
-          echo "Version $VERSION does not exist"
-        fi
+        echo "Version $VERSION already exists"
+        exit 1
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
