@@ -74,7 +74,7 @@ jobs:
           NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         run: |
-          OUTPUT=$(nomad job run -detach portfolio.nomad )
+          OUTPUT=$(nomad job run portfolio.nomad )
           echo "$OUTPUT"
           
           DEPLOYMENT_ID=$(echo "$OUTPUT" | grep -oP '(?<=Monitoring deployment ")[a-f0-9]+')
