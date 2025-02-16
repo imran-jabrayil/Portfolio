@@ -8,6 +8,9 @@ on:
 env:
   NOMAD_VERSION: "1.9.4"
 
+permissions: 
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
