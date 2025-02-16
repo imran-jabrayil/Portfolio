@@ -8,8 +8,7 @@ on:
 env:
   NOMAD_VERSION: "1.9.4"
 
-permissions: 
-  contents: write
+permissions: write-all
 
 jobs:
   build:
