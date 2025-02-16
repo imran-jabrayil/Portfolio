@@ -38,7 +38,7 @@ jobs:
     - uses: mukunku/tag-exists-action@v1.4.0
       id: check-tag
       with:
-        tag: 'refs/tags/v$VERSION'
+        tag: refs/tags/v$VERSION
         
     - name: Check version
       if: steps.check-tag.outputs.exists == 'true'
