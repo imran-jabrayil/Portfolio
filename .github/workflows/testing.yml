@@ -24,11 +24,6 @@ jobs:
       uses: tj-actions/changed-files@v45
       with:
         files: Portfolio/**/*.{cs,cshtml,json,js,css}
-        
-    - name: Debug changed files
-      run: |
-        echo "Any changed: ${{ steps.changed-files.outputs.any_changed }}"
-        echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
 
     - name: Extract version from .csproj
       if: steps.changed-files.outputs.any_changed == 'true'
