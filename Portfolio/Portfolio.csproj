@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.1.2</Version>
+        <Version>0.2.0</Version>
         <PackageReleaseNotes>
-            * Patch
-            - Refactored HealthCheck
+            * Feature
+            - Added support of Database
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -20,6 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
       <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
       <PackageReference Include="Serilog.Expressions" Version="5.1.0-dev-00186" />
       <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1-dev-02308" />

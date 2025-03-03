@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Portfolio.Database;
 using Portfolio.HealthChecks;
 using Serilog;
 
@@ -5,7 +7,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks()
-    .AddCheck<BaseHealthCheck>("BaseHealthCheck");
+    .AddCheck<BaseHealthCheck>("BaseHealthCheck")
+    .AddCheck<DbHealthCheck<PortfolioDbContext>>("PortfolioDbHealthCheck");
+
+builder.Services.AddDbContextFactory<PortfolioDbContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Portfolio")));
 
 builder.Host.UseSerilog((context, config) =>
 {
