@@ -16,8 +16,11 @@ public class DbHealthCheck<TDbContext>(IDbContextFactory<TDbContext> dbContextFa
         try
         {
             await using TDbContext dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-            await dbContext.Database.CanConnectAsync(cancellationToken);
-            return HealthCheckResult.Healthy("Database is reachable");
+            bool canConnectAsync = await dbContext.Database.CanConnectAsync(cancellationToken);
+
+            return canConnectAsync
+                ? HealthCheckResult.Healthy("Database is reachable")
+                : HealthCheckResult.Unhealthy("Could not connect to database");
         }
         catch (Exception ex)
         {
