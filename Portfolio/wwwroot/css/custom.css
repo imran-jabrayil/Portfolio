@@ -1,0 +1,137 @@
+﻿/****************************************************
+    Timeline Container & Center Line
+****************************************************/
+.timeline {
+    position: relative;
+    margin: 2rem 0;
+    padding: 2rem 0 2rem;
+}
+
+.timeline::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    display: block;
+    clear: both;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: #0d6efd;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/****************************************************
+    NOW Label at Top, Earliest Date at Bottom
+****************************************************/
+.timeline-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background-color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    font-weight: 600;
+}
+
+.timeline-label-top {
+    top: 0;
+}
+
+.timeline-label-bottom {
+    bottom: 0;
+}
+
+/****************************************************
+    Timeline Items
+****************************************************/
+.timeline-item {
+    position: relative;
+    width: 40%;
+    margin: 3rem 0;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    border-radius: 5px;
+    z-index: 2;
+    clear: both;
+}
+
+/****************************************************
+    Left vs. Right Columns
+****************************************************/
+.timeline-left {
+    float: left;
+    width: 40%;
+    margin-left: 5%;
+    margin-right: 0;
+    position: relative;
+}
+
+.timeline-left::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -12.5%;
+    transform: translateY(-50%);
+    width: 12.5%;
+    height: 2px;
+    background: #0d6efd;
+}
+
+.timeline-right {
+    float: right;
+    width: 40%;
+    margin-right: 5%;
+    margin-left: 0;
+    position: relative;
+}
+
+.timeline-right::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -12.5%;
+    transform: translateY(-50%);
+    width: 12.5%;
+    height: 2px;
+    background: #0d6efd;
+}
+
+
+/****************************************************
+    Responsive for Smaller Screens
+****************************************************/
+@media (max-width: 768px) {
+    .timeline::before {
+        background-color: transparent;
+    }
+    .timeline-label-top,
+    .timeline-label-bottom {
+        position: static;
+        left: auto;
+        transform: none;
+        margin: 0 auto 1rem auto;
+        display: block;
+        text-align: center;
+    }
+    .timeline-item,
+    .timeline-left,
+    .timeline-right {
+        float: none;
+        width: 100%;
+        margin: 1.5rem auto;
+    }
+    .timeline-left::before,
+    .timeline-right::before {
+        display: none;
+    }
+}

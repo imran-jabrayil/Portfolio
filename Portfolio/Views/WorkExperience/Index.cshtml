@@ -1,32 +1,67 @@
-﻿@model System.Collections.Generic.List<Portfolio.Models.WorkExperience>
+﻿@model List<Portfolio.Models.WorkExperienceTimelineBlock>
 
 @{
     ViewBag.Title = "Work Experience";
     Layout = "_Layout";
+
+    DateTime earliestDate = Model
+        .SelectMany(block => block.WorkExperienceList)
+        .Min(e => e.StartDate);
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="container my-5">
+    <h2 class="text-center mb-4">@ViewBag.Title</h2>
+    <p class="text-center">
+        Below is a simple left-right timeline with a central vertical line.
+        Each block is connected to the line by a short horizontal link.
+    </p>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Company</th>
-        <th>Position</th>
-        <th>Location</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var experience in Model)
-    {
-        <tr>
-            <td><a href="@experience.CompanyUrl" target="_blank">@experience.Company</a></td>
-            <td>@experience.Position</td>
-            <td>@experience.City, @experience.Country</td>
-            <td>@experience.StartDate.ToString("MMMM yyyy")</td>
-            <td>@(experience.TerminationDate?.ToString("MMMM yyyy") ?? "Present")</td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div class="timeline">
+        <div class="timeline-label timeline-label-top">
+            NOW
+        </div>
+
+        <div class="timeline-label timeline-label-bottom">
+            @earliestDate.ToString("MMMM yyyy")
+        </div>
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            WorkExperienceTimelineBlock block = Model[i];
+            bool isLeftSide = i % 2 == 0;
+
+            <div class="timeline-item @(isLeftSide ? "timeline-left" : "timeline-right")">
+                <h5 class="fw-bold">
+                    <a href="@block.CompanyUrl" target="_blank" class="link-primary text-decoration-none">
+                        @block.Company
+                    </a>
+                </h5>
+
+                @if (!string.IsNullOrWhiteSpace(block.CompanyUrl))
+                {
+                    <p>
+
+                    </p>
+                }
+
+                <hr/>
+
+                @foreach (WorkExperience exp in block.WorkExperienceList)
+                {
+                    <p>
+                        <strong>Position:</strong> @exp.Position
+                    </p>
+                    <p>
+                        <strong>Location:</strong> @exp.City, @exp.Country
+                    </p>
+                    <p>
+                        <strong>Dates:</strong>
+                        @exp.StartDate.ToString("MMMM yyyy") -
+                        @(exp.TerminationDate?.ToString("MMMM yyyy") ?? "Present")
+                    </p>
+                    <hr/>
+                }
+            </div>
+        }
+    </div>
+</div>

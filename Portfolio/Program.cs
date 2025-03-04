@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Database;
 using Portfolio.HealthChecks;
+using Portfolio.Services;
+using Portfolio.Services.Abstractions;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Services.AddHealthChecks()
 
 builder.Services.AddDbContextFactory<PortfolioDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("Portfolio")));
+
+builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
 
 builder.Host.UseSerilog((context, config) =>
 {
