@@ -1,25 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Portfolio.Database;
 using Portfolio.Models;
+using Portfolio.Services.Abstractions;
 
 namespace Portfolio.Controllers;
 
 public class WorkExperienceController(
     ILogger<WorkExperienceController> logger,
-    IDbContextFactory<PortfolioDbContext> dbContextFactory) : Controller
+    IWorkExperienceService workExperienceService) : Controller
 {
     private readonly ILogger<WorkExperienceController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    private readonly IDbContextFactory<PortfolioDbContext> _dbContextFactory =
-        dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+    private readonly IWorkExperienceService _workExperienceService =
+        workExperienceService ?? throw new ArgumentNullException(nameof(workExperienceService));
 
     public async Task<IActionResult> Index()
     {
-        await using PortfolioDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
-        List<WorkExperience> workExperienceList = await dbContext.WorkExperience
-            .OrderByDescending(w => w.StartDate)
-            .ToListAsync();
-        _logger.LogInformation($"Retrieved {workExperienceList.Count} work experiences.");
-        return View(workExperienceList);
+        IEnumerable<WorkExperienceTimelineBlock> blocks = await _workExperienceService.GetWorkExperienceTimelineBlocksAsync();
+        
+        List<WorkExperienceTimelineBlock> blocksList = blocks as List<WorkExperienceTimelineBlock> ?? blocks.ToList();
+        
+        _logger.LogInformation("Retrieved {blocksList.Count} work experience timeline blocks", blocksList.Count);
+        
+        return View(blocksList);
     }
 }

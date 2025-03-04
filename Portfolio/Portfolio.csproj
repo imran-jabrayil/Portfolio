@@ -6,12 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.2.2</Version>
+        <Version>0.3.0</Version>
         <PackageReleaseNotes>
             * Feature
-            - Added Work Experience page
-            * Patch
-            - Adjusted logging
+            - Updated UI
         </PackageReleaseNotes>
     </PropertyGroup>
 
