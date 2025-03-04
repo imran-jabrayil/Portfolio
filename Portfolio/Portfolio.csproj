@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.2.0</Version>
+        <Version>0.2.1</Version>
         <PackageReleaseNotes>
-            * Feature
-            - Added support of Database
+            * Patch
+            - Added model WorkExperience and DbSet for this model
         </PackageReleaseNotes>
     </PropertyGroup>
 
