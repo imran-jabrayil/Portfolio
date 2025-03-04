@@ -129,7 +129,11 @@ jobs:
 
       - name: Bump version and push tag
         if: steps.check-tag.outputs.exists == 'false'
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GT_PAT }}
+        env:
+          GT_PAT: ${{ secrets.GT_PAT }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          
+          git tag v$VERSION
+          git push https://x-access-token:$GT_PAT@github.com/${{ github.repository }}.git v$VERSION
