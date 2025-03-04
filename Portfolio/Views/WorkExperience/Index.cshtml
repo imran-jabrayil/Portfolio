@@ -1,0 +1,32 @@
+﻿@model System.Collections.Generic.List<Portfolio.Models.WorkExperience>
+
+@{
+    ViewBag.Title = "Work Experience";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Company</th>
+        <th>Position</th>
+        <th>Location</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var experience in Model)
+    {
+        <tr>
+            <td><a href="@experience.CompanyUrl" target="_blank">@experience.Company</a></td>
+            <td>@experience.Position</td>
+            <td>@experience.City, @experience.Country</td>
+            <td>@experience.StartDate.ToString("MMMM yyyy")</td>
+            <td>@(experience.TerminationDate?.ToString("MMMM yyyy") ?? "Present")</td>
+        </tr>
+    }
+    </tbody>
+</table>
