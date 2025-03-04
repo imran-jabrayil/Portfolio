@@ -6,10 +6,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.2.1</Version>
+        <Version>0.2.2</Version>
         <PackageReleaseNotes>
+            * Feature
+            - Added Work Experience page
             * Patch
-            - Added model WorkExperience and DbSet for this model
+            - Adjusted logging
         </PackageReleaseNotes>
     </PropertyGroup>
 
