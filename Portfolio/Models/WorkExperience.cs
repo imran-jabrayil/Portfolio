@@ -2,7 +2,7 @@
 
 public class WorkExperience
 {
-    public required int Id { get; set; }
+    public required long Id { get; set; }
     public required string Company { get; set; }
     public required string CompanyUrl { get; set; }
     public required string Position { get; set; }
