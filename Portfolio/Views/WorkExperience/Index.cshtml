@@ -21,10 +21,6 @@
             NOW
         </div>
 
-        <div class="timeline-label timeline-label-bottom">
-            @earliestDate.ToString("MMMM yyyy")
-        </div>
-
         @for (int i = 0; i < Model.Count; i++)
         {
             WorkExperienceTimelineBlock block = Model[i];
@@ -63,5 +59,9 @@
                 }
             </div>
         }
+
+        <div class="timeline-label timeline-label-bottom">
+            @earliestDate.ToString("MMMM yyyy")
+        </div>
     </div>
 </div>
