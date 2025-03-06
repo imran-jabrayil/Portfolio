@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.3.1</Version>
+        <Version>0.3.2</Version>
         <PackageReleaseNotes>
             * Fix
-            - Fixed minor bugs in UI
+            - Fix timeline start date position
         </PackageReleaseNotes>
     </PropertyGroup>
 
