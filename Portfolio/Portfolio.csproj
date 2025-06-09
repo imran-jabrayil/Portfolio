@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.3.2</Version>
+        <Version>0.3.3</Version>
         <PackageReleaseNotes>
-            * Fix
-            - Fix timeline start date position
+            * Patch
+            - Migrated from Seq to Loki
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -28,7 +28,7 @@
       <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
       <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
       <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-      <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+      <PackageReference Include="Serilog.Sinks.Grafana.Loki" Version="8.3.1" />
     </ItemGroup>
 
 </Project>
