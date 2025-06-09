@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.3.2</Version>
+        <Version>0.3.3</Version>
         <PackageReleaseNotes>
             * Patch
             - Migrated from Seq to Loki
