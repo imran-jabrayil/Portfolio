@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.3.3</Version>
+        <Version>0.3.4</Version>
         <PackageReleaseNotes>
             * Patch
-            - Migrated from Seq to Loki
+            - Added timezone to Docker
         </PackageReleaseNotes>
     </PropertyGroup>
 
