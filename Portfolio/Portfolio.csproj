@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.3.5</Version>
+        <Version>0.4.0</Version>
         <PackageReleaseNotes>
-            * Patch
-            - Updated ordering in Work Experience blocks
+            * Feature
+            - Added XML encryption
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -29,6 +29,7 @@
       <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
       <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
       <PackageReference Include="Serilog.Sinks.Grafana.Loki" Version="8.3.1" />
+      <PackageReference Include="VaultSharpDataProtection" Version="1.1.0" />
     </ItemGroup>
 
 </Project>
