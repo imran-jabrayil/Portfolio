@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.3.4</Version>
+        <Version>0.3.5</Version>
         <PackageReleaseNotes>
             * Patch
-            - Added timezone to Docker
+            - Updated ordering in Work Experience blocks
         </PackageReleaseNotes>
     </PropertyGroup>
 

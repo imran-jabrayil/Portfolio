@@ -20,7 +20,9 @@ public class WorkExperienceService(
         await using PortfolioDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
         
         List<WorkExperience> workExperienceList = await dbContext.WorkExperience
-            .OrderByDescending(w => w.StartDate)
+            .OrderBy(we => we.TerminationDate.HasValue ? 1 : 0)
+            .ThenByDescending(we => we.TerminationDate)
+            .ThenByDescending(we => we.StartDate)
             .ToListAsync();
         _logger.LogInformation("Retrieved {workExperienceList.Count} work experiences.", workExperienceList.Count);
 
