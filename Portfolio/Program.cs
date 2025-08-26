@@ -6,6 +6,7 @@ using Portfolio.Database;
 using Portfolio.HealthChecks;
 using Portfolio.Services;
 using Portfolio.Services.Abstractions;
+using Prometheus;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -45,7 +46,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.MapHealthChecks("/health");
+app.MapHealthChecks("/health")
+    .DisableHttpMetrics();
 
 // app.UseHttpsRedirection();
 app.UseRouting();
@@ -60,5 +62,9 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Logger.LogInformation("Application started.");
+
+app.UseHttpMetrics();
+
+app.MapMetrics();
 
 app.Run();
