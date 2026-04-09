@@ -28,7 +28,7 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : 
         base.OnModelCreating(modelBuilder);
     }
 
-    private static void ConfigureWorkExperience(ModelBuilder modelBuilder)
+    static private void ConfigureWorkExperience(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<WorkExperience>(e =>
         {
@@ -46,7 +46,7 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : 
         });
     }
 
-    private static void ConfigurePersonalInfo(ModelBuilder modelBuilder)
+    static private void ConfigurePersonalInfo(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<PersonalInfo>(e =>
         {
@@ -74,7 +74,7 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : 
         });
     }
 
-    private static void ConfigureEducation(ModelBuilder modelBuilder)
+    static private void ConfigureEducation(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Education>(e =>
         {
@@ -91,7 +91,7 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : 
         });
     }
 
-    private static void ConfigureProject(ModelBuilder modelBuilder)
+    static private void ConfigureProject(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Project>(e =>
         {
@@ -106,7 +106,7 @@ public class PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : 
         });
     }
 
-    private static void ConfigureAchievement(ModelBuilder modelBuilder)
+    static private void ConfigureAchievement(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Achievement>(e =>
         {

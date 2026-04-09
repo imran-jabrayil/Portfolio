@@ -23,7 +23,7 @@ public static class DbInitializer
         await SeedAchievementsAsync(db, logger);
     }
 
-    private static async Task SeedPersonalInfoAsync(PortfolioDbContext db, ILogger logger)
+    static private async Task SeedPersonalInfoAsync(PortfolioDbContext db, ILogger logger)
     {
         if (await db.PersonalInfo.AnyAsync()) return;
 
@@ -44,7 +44,7 @@ public static class DbInitializer
         logger.LogInformation("Seeded PersonalInfo.");
     }
 
-    private static async Task SeedWorkExperienceAsync(PortfolioDbContext db, ILogger logger)
+    static private async Task SeedWorkExperienceAsync(PortfolioDbContext db, ILogger logger)
     {
         if (await db.WorkExperience.AnyAsync()) return;
 
@@ -113,7 +113,7 @@ public static class DbInitializer
         logger.LogInformation("Seeded WorkExperience.");
     }
 
-    private static async Task SeedSkillsAsync(PortfolioDbContext db, ILogger logger)
+    static private async Task SeedSkillsAsync(PortfolioDbContext db, ILogger logger)
     {
         if (await db.Skills.AnyAsync()) return;
 
@@ -157,7 +157,7 @@ public static class DbInitializer
         logger.LogInformation("Seeded {Count} skills.", skills.Count);
     }
 
-    private static async Task SeedEducationAsync(PortfolioDbContext db, ILogger logger)
+    static private async Task SeedEducationAsync(PortfolioDbContext db, ILogger logger)
     {
         if (await db.Education.AnyAsync()) return;
 
@@ -178,7 +178,7 @@ public static class DbInitializer
         logger.LogInformation("Seeded Education.");
     }
 
-    private static async Task SeedProjectsAsync(PortfolioDbContext db, ILogger logger)
+    static private async Task SeedProjectsAsync(PortfolioDbContext db, ILogger logger)
     {
         if (await db.Projects.AnyAsync()) return;
 
@@ -219,7 +219,7 @@ public static class DbInitializer
         logger.LogInformation("Seeded Projects.");
     }
 
-    private static async Task SeedAchievementsAsync(PortfolioDbContext db, ILogger logger)
+    static private async Task SeedAchievementsAsync(PortfolioDbContext db, ILogger logger)
     {
         if (await db.Achievements.AnyAsync()) return;
 
