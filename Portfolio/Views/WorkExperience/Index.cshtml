@@ -1,67 +1,82 @@
-﻿@model List<Portfolio.Models.WorkExperienceTimelineBlock>
+@model List<Portfolio.Models.WorkExperienceTimelineBlock>
 
 @{
-    ViewBag.Title = "Work Experience";
-    Layout = "_Layout";
-
-    DateTime earliestDate = Model
-        .SelectMany(block => block.WorkExperienceList)
-        .Min(e => e.StartDate);
+    ViewData["Title"] = "Experience";
 }
 
-<div class="container my-5">
-    <h2 class="text-center mb-4">@ViewBag.Title</h2>
-    <p class="text-center">
-        Below is a simple left-right timeline with a central vertical line.
-        Each block is connected to the line by a short horizontal link.
-    </p>
-
-    <div class="timeline">
-        <div class="timeline-label timeline-label-top">
-            NOW
+<div class="section page-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">experience</span>
+            <h2 class="section-title">Work History</h2>
+            <p class="section-subtitle">My professional journey — ordered from most recent.</p>
         </div>
 
-        @for (int i = 0; i < Model.Count; i++)
+        @if (Model.Any())
         {
-            WorkExperienceTimelineBlock block = Model[i];
-            bool isLeftSide = i % 2 == 0;
-
-            <div class="timeline-item @(isLeftSide ? "timeline-left" : "timeline-right")">
-                <h5 class="fw-bold">
-                    <a href="@block.CompanyUrl" target="_blank" class="link-primary text-decoration-none">
-                        @block.Company
-                    </a>
-                </h5>
-
-                @if (!string.IsNullOrWhiteSpace(block.CompanyUrl))
+            <div class="full-timeline">
+                @foreach (var block in Model)
                 {
-                    <p>
+                    <div class="ft-block">
+                        <div class="ft-company-header">
+                            <div class="ft-dot"></div>
+                            <h3 class="ft-company-name">
+                                @if (!string.IsNullOrEmpty(block.CompanyUrl))
+                                {
+                                    <a href="@block.CompanyUrl" target="_blank" rel="noopener">
+                                        @block.Company <i class="fas fa-external-link-alt fa-xs opacity-50 ms-1"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    @block.Company
+                                }
+                            </h3>
+                        </div>
 
-                    </p>
-                }
-
-                <hr/>
-
-                @foreach (WorkExperience exp in block.WorkExperienceList)
-                {
-                    <p>
-                        <strong>Position:</strong> @exp.Position
-                    </p>
-                    <p>
-                        <strong>Location:</strong> @exp.City, @exp.Country
-                    </p>
-                    <p>
-                        <strong>Dates:</strong>
-                        @exp.StartDate.ToString("MMMM yyyy") -
-                        @(exp.TerminationDate?.ToString("MMMM yyyy") ?? "Present")
-                    </p>
-                    <hr/>
+                        <div class="ft-roles">
+                            @foreach (var exp in block.WorkExperienceList)
+                            {
+                                <div class="ft-role-card">
+                                    <div class="ft-role-top">
+                                        <span class="ft-position">@exp.Position</span>
+                                        <span class="ft-badge">
+                                            @exp.StartDate.ToString("MMM yyyy") &mdash;
+                                            @(exp.TerminationDate?.ToString("MMM yyyy") ?? "Present")
+                                        </span>
+                                    </div>
+                                    <div class="ft-location">
+                                        <i class="fas fa-map-marker-alt fa-xs me-1"></i>
+                                        @exp.City, @exp.Country
+                                    </div>
+                                    @if (exp.Description?.Count > 0)
+                                    {
+                                        <ul class="ft-bullets">
+                                            @foreach (var bullet in exp.Description)
+                                            {
+                                                <li>@bullet</li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
                 }
             </div>
-        }
 
-        <div class="timeline-label timeline-label-bottom">
-            @earliestDate.ToString("MMMM yyyy")
-        </div>
+            <div class="text-center mt-5">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-glow">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Portfolio
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted py-5">
+                <i class="fas fa-briefcase fa-3x mb-3 opacity-25"></i>
+                <p>No work experience records yet.</p>
+            </div>
+        }
     </div>
 </div>

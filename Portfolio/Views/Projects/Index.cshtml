@@ -1,0 +1,64 @@
+@model IEnumerable<Portfolio.Models.Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="section page-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">projects</span>
+            <h2 class="section-title">What I've Built</h2>
+            <p class="section-subtitle">Open source contributions, personal infrastructure, and side projects.</p>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="projects-grid">
+                @foreach (var project in Model)
+                {
+                    <div class="project-card fade-in">
+                        <div class="project-card-top">
+                            <i class="fas fa-folder-open project-icon"></i>
+                            <div class="project-links">
+                                @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                                {
+                                    <a href="@project.GitHubUrl" target="_blank" rel="noopener" aria-label="GitHub repository">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(project.LiveUrl))
+                                {
+                                    <a href="@project.LiveUrl" target="_blank" rel="noopener" aria-label="Live site">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                        <h3 class="project-name">@project.Name</h3>
+                        <p class="project-description">@project.Description</p>
+                        <div class="project-tech">
+                            @foreach (string tech in project.Technologies.Split(',').Select(t => t.Trim()))
+                            {
+                                <span class="tech-tag">@tech</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted py-5">
+                <i class="fas fa-folder-open fa-3x mb-3 opacity-25"></i>
+                <p>Projects coming soon.</p>
+            </div>
+        }
+
+        <div class="text-center mt-5">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-glow">
+                <i class="fas fa-arrow-left me-2"></i>Back
+            </a>
+        </div>
+    </div>
+</div>

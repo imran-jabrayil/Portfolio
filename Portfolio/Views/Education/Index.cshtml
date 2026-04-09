@@ -1,0 +1,84 @@
+@model (IEnumerable<Portfolio.Models.Education> Education, IEnumerable<Portfolio.Models.Achievement> Achievements)
+
+@{
+    ViewData["Title"] = "Education";
+}
+
+<div class="section page-section">
+    <div class="container">
+
+        <!-- Education -->
+        <div class="section-header">
+            <span class="section-tag">education</span>
+            <h2 class="section-title">Academic Background</h2>
+        </div>
+
+        @if (Model.Education.Any())
+        {
+            <div class="education-list">
+                @foreach (var edu in Model.Education)
+                {
+                    <div class="edu-card fade-in">
+                        <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="edu-body">
+                            <h3 class="edu-institution">
+                                @if (!string.IsNullOrEmpty(edu.InstitutionUrl))
+                                {
+                                    <a href="@edu.InstitutionUrl" target="_blank" rel="noopener">
+                                        @edu.Institution <i class="fas fa-external-link-alt fa-xs opacity-50 ms-1"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    @edu.Institution
+                                }
+                            </h3>
+                            <p class="edu-degree">
+                                @edu.Degree in @edu.FieldOfStudy
+                                @if (!string.IsNullOrEmpty(edu.Grade))
+                                {
+                                    <span class="edu-grade">@edu.Grade</span>
+                                }
+                            </p>
+                            <p class="edu-years">@edu.StartYear — @(edu.EndYear?.ToString() ?? "Present")</p>
+                            @if (!string.IsNullOrEmpty(edu.Description))
+                            {
+                                <p class="edu-desc">@edu.Description</p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Achievements -->
+        @if (Model.Achievements.Any())
+        {
+            <div class="section-header mt-5 pt-2">
+                <span class="section-tag">achievements</span>
+                <h2 class="section-title">Awards &amp; Achievements</h2>
+            </div>
+
+            <div class="achievements-grid">
+                @foreach (var ach in Model.Achievements)
+                {
+                    <div class="ach-card fade-in">
+                        <div class="ach-year">@ach.Years</div>
+                        <h3 class="ach-title">@ach.Title</h3>
+                        <p class="ach-desc">@ach.Description</p>
+                        @if (!string.IsNullOrEmpty(ach.Organization))
+                        {
+                            <span class="ach-org">@ach.Organization</span>
+                        }
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="text-center mt-5">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-glow">
+                <i class="fas fa-arrow-left me-2"></i>Back
+            </a>
+        </div>
+    </div>
+</div>

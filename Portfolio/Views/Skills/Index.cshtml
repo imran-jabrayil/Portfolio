@@ -1,0 +1,65 @@
+@model IEnumerable<Portfolio.Models.Skill>
+
+@{
+    ViewData["Title"] = "Skills";
+    var byCategory = Model.GroupBy(s => s.Category).OrderBy(g => g.Key).ToList();
+}
+
+<div class="section page-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">technical skills</span>
+            <h2 class="section-title">What I Work With</h2>
+            <p class="section-subtitle">A snapshot of my technical toolkit, grouped by domain.</p>
+        </div>
+
+        @if (byCategory.Any())
+        {
+            <ul class="skills-tabs nav nav-pills mb-4" id="skillTabs" role="tablist">
+                @for (int i = 0; i < byCategory.Count; i++)
+                {
+                    string cat = byCategory[i].Key;
+                    string tabId = $"tab-{cat.Replace(" ", "-").ToLower()}";
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link @(i == 0 ? "active" : "")"
+                                id="@tabId-btn"
+                                data-bs-toggle="pill"
+                                data-bs-target="#@tabId"
+                                type="button" role="tab"
+                                aria-controls="@tabId"
+                                aria-selected="@(i == 0 ? "true" : "false")">
+                            @cat
+                        </button>
+                    </li>
+                }
+            </ul>
+
+            <div class="tab-content" id="skillTabsContent">
+                @for (int i = 0; i < byCategory.Count; i++)
+                {
+                    var group = byCategory[i];
+                    string cat = group.Key;
+                    string tabId = $"tab-{cat.Replace(" ", "-").ToLower()}";
+
+                    <div class="tab-pane fade @(i == 0 ? "show active" : "")"
+                         id="@tabId" role="tabpanel" aria-labelledby="@tabId-btn">
+                        <div class="skills-grid">
+                            @foreach (var skill in group)
+                            {
+                                <div class="skill-card fade-in">
+                                    <div class="skill-name">@skill.Name</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="text-center mt-5">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-glow">
+                <i class="fas fa-arrow-left me-2"></i>Back
+            </a>
+        </div>
+    </div>
+</div>

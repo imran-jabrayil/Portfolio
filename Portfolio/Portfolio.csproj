@@ -6,10 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <Authors>Imran Jabrayilov</Authors>
-        <Version>0.4.1</Version>
+        <Version>0.5.0</Version>
         <PackageReleaseNotes>
-            * Patch
-            - Added Prometheus metrics
+            * Feature
+            - Redesign
         </PackageReleaseNotes>
     </PropertyGroup>
 
@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
       <PackageReference Include="prometheus-net" Version="8.2.1" />
       <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />

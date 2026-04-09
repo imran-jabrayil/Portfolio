@@ -11,27 +11,44 @@ using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDataProtection()
-    .PersistKeysToVault(
-        new Uri(builder.Configuration.GetSection("Vault")["Uri"]!),
-        builder.Configuration.GetSection("Vault")["Token"]!,
-        "dataProtection",
-        "portfolio")
-    .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
-    {
-        EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
-        ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
-    });
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToVault(
+            new Uri(builder.Configuration.GetSection("Vault")["Uri"]!),
+            builder.Configuration.GetSection("Vault")["Token"]!,
+            "dataProtection",
+            "portfolio")
+        .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+            ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+        });
+    
+    builder.Services.AddDbContextFactory<PortfolioDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("Portfolio")));
+}
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContextFactory<PortfolioDbContext>(options =>
+        options.UseInMemoryDatabase("DevDb"));
+}
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks()
     .AddCheck<BaseHealthCheck>("BaseHealthCheck")
     .AddCheck<DbHealthCheck<PortfolioDbContext>>("PortfolioDbHealthCheck");
 
-builder.Services.AddDbContextFactory<PortfolioDbContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Portfolio")));
 
+
+// Portfolio services
 builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
+builder.Services.AddScoped<IPersonalInfoService, PersonalInfoService>();
+builder.Services.AddScoped<ISkillService, SkillService>();
+builder.Services.AddScoped<IEducationService, EducationService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IAchievementService, AchievementService>();
 
 builder.Host.UseSerilog((context, config) =>
 {
@@ -39,6 +56,16 @@ builder.Host.UseSerilog((context, config) =>
 });
 
 WebApplication app = builder.Build();
+
+// Seed database on startup (no-op if data already exists)
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IDbContextFactory<PortfolioDbContext> dbFactory =
+        scope.ServiceProvider.GetRequiredService<IDbContextFactory<PortfolioDbContext>>();
+    ILogger<Program> seedLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    await DbInitializer.SeedAsync(dbFactory, seedLogger);
+}
 
 if (!app.Environment.IsDevelopment())
 {

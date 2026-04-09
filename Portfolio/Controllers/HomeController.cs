@@ -1,19 +1,31 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Models;
+using Portfolio.Services.Abstractions;
 
 namespace Portfolio.Controllers;
 
-public class HomeController() : Controller
+/// <summary>
+/// Serves the portfolio home page (hero + about + section navigation).
+/// </summary>
+public class HomeController(
+    ILogger<HomeController> logger,
+    IPersonalInfoService personalInfoService) : Controller
 {
-    public IActionResult Index()
-    {
-        return View();
-    }
+    private readonly ILogger<HomeController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly IPersonalInfoService _personalInfoService = personalInfoService ?? throw new ArgumentNullException(nameof(personalInfoService));
 
-    public IActionResult Privacy()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        PersonalInfo? info = await _personalInfoService.GetPersonalInfoAsync();
+
+        if (info is null)
+        {
+            _logger.LogError("PersonalInfo record is missing — cannot render home page.");
+            return StatusCode(500, "Portfolio data is not configured.");
+        }
+
+        return View(info);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
