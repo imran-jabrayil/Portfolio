@@ -1,4 +1,4 @@
-﻿namespace Portfolio.Models;
+namespace Portfolio.Models;
 
 public class WorkExperience
 {
@@ -10,4 +10,10 @@ public class WorkExperience
     public required string City { get; set; }
     public required DateTime StartDate { get; set; }
     public DateTime? TerminationDate { get; set; }
+
+    /// <summary>
+    /// Bullet-point description of the role, sourced from LinkedIn.
+    /// Stored as a JSON array in the database; each element is one bullet.
+    /// </summary>
+    public List<string>? Description { get; set; }
 }

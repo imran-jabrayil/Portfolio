@@ -289,3 +289,7 @@ __pycache__/
 *.xsd.cs
 
 appsettings.Development.json
+
+# Claude
+.claude
+CLAUDE.md

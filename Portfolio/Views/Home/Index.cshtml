@@ -1,8 +1,181 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@model Portfolio.Models.PersonalInfo
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+
+    <div class="container hero-content">
+        <p class="hero-greeting">Hi, I'm</p>
+        <h1 class="hero-name">@Model.Name</h1>
+        <h2 class="hero-title">
+            <span id="typed-title"></span><span class="cursor">|</span>
+        </h2>
+        <p class="hero-bio">@Model.Bio</p>
+
+        <div class="hero-cta">
+            <a asp-controller="WorkExperience" asp-action="Index" class="btn btn-primary-glow">
+                View Experience <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+            <a href="#about" class="btn btn-outline-glow">About Me</a>
+        </div>
+
+        <div class="hero-social">
+            @if (!string.IsNullOrEmpty(Model.GitHubUrl))
+            {
+                <a href="@Model.GitHubUrl" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+            {
+                <a href="@Model.LinkedInUrl" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            }
+        </div>
+
+        <div class="hero-scroll-hint">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ABOUT ─────────────────────────────────────────────── -->
+<section class="section section-alt" id="about">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">about me</span>
+            <h2 class="section-title">Who I Am</h2>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-text">
+                <p>@Model.Bio</p>
+                <p class="mt-3">
+                    Currently based in <strong>@Model.Location</strong>, I specialise in building robust backend
+                    systems with a strong focus on observability, security, and clean architecture.
+                </p>
+                <div class="about-stack-badges mt-4">
+                    <span class="stack-badge">.NET / C#</span>
+                    <span class="stack-badge">Go</span>
+                    <span class="stack-badge">Docker</span>
+                    <span class="stack-badge">HashiCorp Stack</span>
+                    <span class="stack-badge">Prometheus / Grafana</span>
+                </div>
+                <div class="about-links mt-4">
+                    @if (!string.IsNullOrEmpty(Model.GitHubUrl))
+                    {
+                        <a href="@Model.GitHubUrl" target="_blank" rel="noopener" class="about-ext-link">
+                            <i class="fab fa-github me-2"></i>GitHub
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.LinkedInUrl))
+                    {
+                        <a href="@Model.LinkedInUrl" target="_blank" rel="noopener" class="about-ext-link">
+                            <i class="fab fa-linkedin-in me-2"></i>LinkedIn
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="about-info-card">
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-map-marker-alt me-2"></i>Location</span>
+                    <span class="info-value">@Model.Location</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-briefcase me-2"></i>Focus</span>
+                    <span class="info-value">Backend / SRE</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-code me-2"></i>Stack</span>
+                    <span class="info-value">.NET · Go · Docker</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-circle me-2" style="color: #22c55e; font-size: 0.6rem;"></i>Status</span>
+                    <span class="info-value">Open to opportunities</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── SECTION NAVIGATION ────────────────────────────────── -->
+<section class="section" id="explore">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">explore</span>
+            <h2 class="section-title">Explore My Portfolio</h2>
+        </div>
+
+        <div class="nav-cards-grid">
+            <a asp-controller="WorkExperience" asp-action="Index" class="nav-card">
+                <div class="nav-card-icon"><i class="fas fa-briefcase"></i></div>
+                <h3 class="nav-card-title">Experience</h3>
+                <p class="nav-card-desc">My professional journey at Simbrella and Huawei — roles, responsibilities, and growth.</p>
+                <span class="nav-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a asp-controller="Skills" asp-action="Index" class="nav-card">
+                <div class="nav-card-icon"><i class="fas fa-code"></i></div>
+                <h3 class="nav-card-title">Skills</h3>
+                <p class="nav-card-desc">Languages, frameworks, databases, DevOps tooling, and observability stack.</p>
+                <span class="nav-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a asp-controller="Projects" asp-action="Index" class="nav-card">
+                <div class="nav-card-icon"><i class="fas fa-folder-open"></i></div>
+                <h3 class="nav-card-title">Projects</h3>
+                <p class="nav-card-desc">Open source work, personal infrastructure projects, and side experiments.</p>
+                <span class="nav-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a asp-controller="Education" asp-action="Index" class="nav-card">
+                <div class="nav-card-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3 class="nav-card-title">Education</h3>
+                <p class="nav-card-desc">Academic background and notable achievements.</p>
+                <span class="nav-card-arrow"><i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Typewriter effect
+        const titles = [
+            "Software Engineer",
+            ".NET & Go Developer",
+            "Site Reliability Engineer",
+            "Clean Architecture Advocate"
+        ];
+        let titleIndex = 0, charIndex = 0, isDeleting = false;
+        const typedEl = document.getElementById("typed-title");
+
+        function type() {
+            const current = titles[titleIndex];
+            typedEl.textContent = isDeleting
+                ? current.substring(0, charIndex--)
+                : current.substring(0, charIndex++);
+
+            let delay = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex > current.length) {
+                delay = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex < 0) {
+                isDeleting = false;
+                titleIndex = (titleIndex + 1) % titles.length;
+                delay = 400;
+            }
+            setTimeout(type, delay);
+        }
+        type();
+    </script>
+}
