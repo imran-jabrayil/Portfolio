@@ -33,4 +33,11 @@ public class HomeController(
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Teapot()
+    {
+        Response.StatusCode = StatusCodes.Status418ImATeapot;
+        return View();
+    }
 }

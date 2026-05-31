@@ -73,6 +73,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/Home/Teapot");
+
 app.MapHealthChecks("/health")
     .DisableHttpMetrics();
 
